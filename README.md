@@ -30,9 +30,8 @@ An exploratory analysis of selected physical therapy–related services reported
 
 ## Repository structure
 ```text
-sql/
-  01_data_cleaning_rehab.sql   # Validation, HCPCS reference table, analysis table
-  02_EDA_rehab_services.sql    # Utilization, geography, payments, sensitivity analyses
+01_data_cleaning_rehab.sql   # Validation, HCPCS reference table, analysis table
+02_EDA_rehab_services.sql    # Utilization, geography, payments, sensitivity analyses
 README.md
 ```
 
@@ -43,7 +42,7 @@ README.md
 - `Tot_Srvcs` counts **reported service units**, not visits; summed beneficiary counts across facility and non-facility records may count some people in more than one setting.
 - Geographic payment ranges are descriptive and are influenced by the state observations included; standardization does not eliminate all between-state variation.
 - Published summary data may omit or suppress some cells. Differences between national totals and sums of published state totals should not automatically be attributed to one specific cause.
-- No causal claims or direct assessments of care quality can be made from these data.
+- No causal claims or direct assessments of care quality can be made from this data.
 
 ## Reproducibility
-Run the queries in `sql/01_data_cleaning_rehab.sql` to review validation and build the reference and analysis tables, then explore with `sql/02_EDA_rehab_services.sql`. SQL uses the original BigQuery project and dataset identifiers; **replace those identifiers and load the source CMS data** if running in a different environment. Sections contain independent exploratory queries, not a fully automated deployment pipeline. **The downloadable SQL copies have had the note headings converted to SQL comments and one stray `SELECT` removed; they have not been rerun in BigQuery in this environment.**
+Run the queries in `01_data_cleaning_rehab.sql` to review validation and build the reference and analysis tables, then explore with `02_EDA_rehab_services.sql`. SQL uses the original BigQuery project and dataset identifiers; **replace those identifiers and load the source CMS data** if running in a different environment. Sections contain independent exploratory queries, not a fully automated deployment pipeline. **The downloadable SQL copies have had the note headings converted to SQL comments and one stray `SELECT` removed; they have not been rerun in BigQuery in this environment.**
