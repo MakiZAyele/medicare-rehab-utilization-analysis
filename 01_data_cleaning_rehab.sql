@@ -1,4 +1,4 @@
--- This query checks if all the data in the HCPCS_Drug_Ind columnimported correctly into bigQuery by counting how many rows have TRUE and FALSE values.  
+-- This query checks if all the data in the HCPCS_Drug_Ind column imported correctly into BigQuery by counting how many rows have TRUE and FALSE values.  
 SELECT
   HCPCS_Drug_Ind,
   COUNT(*) AS row_count
@@ -9,7 +9,7 @@ ORDER BY row_count DESC;
 -- After this I also had to check if the rows that came up matched all the rows that were imported
 SELECT
   COUNT(*) AS total_rows
-FROM `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`
+FROM `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`;
 
 -- This query was used to check if HCPCS_Drug_Ind had any NULL values
 SELECT
@@ -17,7 +17,7 @@ SELECT
   COUNTIF(HCPCS_Drug_Ind IS NULL) AS missing_drug_indicator,
   COUNTIF(HCPCS_Drug_Ind IS NOT NULL) AS nonmissing_drug_indicator
 FROM 
-  `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`
+  `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`;
 
 -- Next this query was used to see if there are any NULL values in all the other columns
 SELECT
@@ -37,7 +37,7 @@ SELECT
   COUNTIF(Avg_Mdcr_Alowd_Amt IS NULL) AS missing_avg_allowed,
   COUNTIF(Avg_Mdcr_Pymt_Amt IS NULL) AS missing_avg_payment,
   COUNTIF(Avg_Mdcr_Stdzd_Amt IS NULL) AS missing_avg_standardized
-FROM `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`
+FROM `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`;
 
 -- Since blank strings(" ") are not considered as blank in SQL, this query was used to really check if there are any missing values
 SELECT
@@ -49,7 +49,7 @@ SELECT
   COUNTIF(TRIM(Place_Of_Srvc) = '') AS empty_place_of_service
 
 FROM
-  `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`
+  `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`;
 
 -- When the above query was run, there are 5 blank values in the Rndrng_Prvdr_Geo_Desc column. To see where the blank values are this query was used
  SELECT
@@ -66,7 +66,7 @@ FROM
 WHERE
   TRIM(Rndrng_Prvdr_Geo_Desc) = '';
 
--- From the query that ran to check if there were any blank values not counted as NULL in the data, there were 13,383 blanks in the  Rndrng_Prvdr_Geo_Cd column. To see from those how many were national-level records and how many were state-level records thsi query was used
+-- From the query that ran to check if there were any blank values not counted as NULL in the data, there were 13,383 blanks in the  Rndrng_Prvdr_Geo_Cd column. To see from those how many were national-level records and how many were state-level records this query was used
 SELECT
   Rndrng_Prvdr_Geo_Lvl,
   COUNT(*) AS empty_code_count
@@ -106,7 +106,7 @@ HAVING
 ORDER BY
   duplicate_count DESC;
 
--- This query was used to check if there were any leaning or trailing whitespace in the String columns
+-- This query was used to check if there were any leading or trailing whitespace in the String columns
 SELECT
   COUNTIF(TRIM(Rndrng_Prvdr_Geo_Lvl) != Rndrng_Prvdr_Geo_Lvl) AS spaces_geo_level,
   COUNTIF(TRIM(Rndrng_Prvdr_Geo_Cd) != Rndrng_Prvdr_Geo_Cd) AS spaces_geo_code,
@@ -116,12 +116,12 @@ SELECT
   COUNTIF(TRIM(Place_Of_Srvc) != Place_Of_Srvc) AS spaces_place_of_service
 
 FROM
-  `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`
+  `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`;
 
--- Next to understand the data ranges of the important numeriacl columns before cheching for logical extremes I ran
+-- Next to understand the data ranges of the important numerical columns before checking for logical extremes I ran
 SELECT
   MIN(Tot_Srvcs) AS min_services,
-  MAX(Tot_Srvcs) AS max_services,
+  MAX(Tot_Srvcs) AS services,
 
   MIN(Tot_Benes) AS min_beneficiaries,
   MAX(Tot_Benes) AS max_beneficiaries,
@@ -130,7 +130,7 @@ SELECT
   MAX(Avg_Mdcr_Pymt_Amt) AS max_payment
 
 FROM
-  `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`
+  `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`;
 
 -- To make sure that there were no negative values in all the numerical columns
 SELECT
@@ -144,7 +144,7 @@ SELECT
   COUNTIF(Avg_Mdcr_Stdzd_Amt < 0) AS negative_standardized_payments
 
 FROM
-  `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`
+  `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`;
 
 -- This query was used to check how many zeros(if any) are in the number columns
 SELECT
@@ -158,9 +158,9 @@ SELECT
   COUNTIF(Avg_Mdcr_Stdzd_Amt = 0) AS zero_standardized_payments
 
 FROM
-  `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`
+  `invertible-fin-504723-d3.Rehab_Util_exp.Geography and Service`;
 
--- The above query gave the result of only one zero in all thre payment-related columns, so this query is going to show which records are those zeros in
+-- The above query gave the result of only one zero in all three payment-related columns, so this query is going to show which records are those zeros in
 SELECT
   Rndrng_Prvdr_Geo_Lvl,
   Rndrng_Prvdr_Geo_Desc,
@@ -182,7 +182,7 @@ WHERE
   OR Avg_Mdcr_Pymt_Amt = 0
   OR Avg_Mdcr_Stdzd_Amt = 0;
 
--- To further check for logical extremes, tis query was used to see if there were any records that had a greater number of benefitiaries than number of max_services
+-- To further check for logical extremes, this query was used to see if there were any records that had a greater number of beneficiaries than number of max_services
 SELECT
   COUNT(*) AS records_to_investigate
 FROM
@@ -190,7 +190,7 @@ FROM
 WHERE
   Tot_Benes > Tot_Srvcs;
 
--- To check if the services of the 4 records with the number of benefitiaries greater than the number of services
+-- To check if the services of the 4 records with the number of beneficiaries greater than the number of services
 SELECT
   Rndrng_Prvdr_Geo_Desc,
   HCPCS_Cd,
@@ -205,7 +205,7 @@ FROM
 WHERE
   Tot_Benes > Tot_Srvcs;
 
--- To narrow doen the list of services in the dataset to review and select HCPCS codes related to the project. Based on 97000 series 
+-- To narrow down the list of services in the dataset to review and select HCPCS codes related to the project. Based on 97000 series 
 SELECT DISTINCT
   HCPCS_Cd,
   HCPCS_Desc
@@ -328,7 +328,7 @@ HAVING
 ORDER BY
   duplicate_count DESC;
 
--- To check if the 5 stste records that have missing geographic codes from earlier are not in this table
+-- To check if the 5 state records that have missing geographic codes from earlier are not in this table
  SELECT
   COUNTIF(
     Rndrng_Prvdr_Geo_Lvl = 'State'
